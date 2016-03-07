@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class Action {
+public abstract class Action : MonoBehaviour {
 
     #region member variables
 

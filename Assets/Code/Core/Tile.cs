@@ -1,15 +1,31 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+
+[RequireComponent(typeof(SpriteRenderer))]
 
 public class Tile : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    #region member variables
+
+    public string m_name;
+    public Actor m_occupant;
+    public List<Item> m_itemsInTile;
+    [HideInInspector]
+    public SpriteRenderer m_spriteRenderer;
+    public bool m_isLit = false;
+    public bool m_isBlocking = false;
+
+    #endregion
+
+
+    void Awake()
+    {
+        m_spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    void Update()
+    {
+
+    }
 }

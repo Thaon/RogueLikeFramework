@@ -3,12 +3,21 @@ using System.Collections;
 
 public class Item : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
+    #region member variables
+
+    public string m_name;
+    [SerializeField]
+    public equipmentType m_type;
+
+    public int m_damageReduction, m_damageOutput;
+    public int m_chancheToHit;//this is %
+
+    #endregion
+
+    void Start () {
 	
 	}
 	
-	// Update is called once per frame
 	void Update () {
 	
 	}

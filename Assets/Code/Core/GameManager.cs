@@ -28,4 +28,9 @@ public class GameManager : MonoBehaviour {
             }
         }
 	}
+
+    public static void Log(string text)
+    {
+        print(text); //for now it just dumps it out, I may have to make this static
+    }
 }
