@@ -27,7 +27,7 @@ public class PlayerMovement : Action {
         if (Input.GetButtonDown("Up"))
         {
             UpdatePosition();
-            print(m_currentX + " : " + m_currentY);
+            //print(m_currentX + " : " + currentX);
             m_gameMap.MoveActor(m_thisActor, new Vector2(m_currentX, m_currentY --));
         }
         if (Input.GetButtonDown("Right"))
@@ -49,8 +49,8 @@ public class PlayerMovement : Action {
 
     public void UpdatePosition()
     {
-        m_currentX = (int)m_gameMap.GetActorLocation(m_thisActor).x;
-        m_currentY = (int)m_gameMap.GetActorLocation(m_thisActor).y;
+        m_currentX = (int)m_gameMap.GetActorLocation(m_thisActor.GetInstanceID()).x;
+        m_currentY = (int)m_gameMap.GetActorLocation(m_thisActor.GetInstanceID()).y;
     }
 
     override public void Perform() { } //Perform is not used in input driven actions

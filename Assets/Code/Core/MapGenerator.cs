@@ -27,6 +27,6 @@ public class MapGenerator : MonoBehaviour {
         }
         map.SetUpMap();
         map.MoveActor(m_player, new Vector2(9, 9));
-        print(map.GetActorLocation(m_player).ToString());
+        print(map.GetActorLocation(m_player.GetInstanceID()));
 	}
 }

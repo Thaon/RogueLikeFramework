@@ -14,10 +14,30 @@ public class Map : MonoBehaviour{
         float worldToPixels = (Camera.main.orthographicSize / (Screen.height / 2.0f));
         m_tileSize = (GetComponent<SpriteRenderer>().sprite.bounds.extents.x * 2);// * worldToPixels);// / worldToPixels;
         //print(m_tileSize);
+        FillWithEmptyTiles();
+        
+    }
+
+    void FillWithEmptyTiles()
+    {
+        Tile empty = GameObject.Find("Empty").GetComponent<Tile>();
+        for (int y = 0; y < m_mapSize; y++)
+        {
+            for (int x = 0; x < m_mapSize; x++)
+            {
+                m_levelMap[x, y] = empty;
+            }
+        }
     }
 
     public void SetUpMap()
     {
+        //put actor in map
+        //print(m_levelMap[0, 0].m_name);
+        Actor player = GetComponent<MapGenerator>().m_player;
+        //print(player.m_name);
+        m_levelMap[0, 0].m_occupant = player;
+        //print(m_levelMap[0, 0].m_occupant.m_name);
         for (int y = 0; y < m_mapSize; y++)
         {
             for (int x = 0; x < m_mapSize; x++)
@@ -34,6 +54,7 @@ public class Map : MonoBehaviour{
 
     public void MoveActor(Actor actor, Vector2 newPosition)
     {
+        //print("Moved actor");
         int newX = (int)newPosition.x;
         int newY = (int)newPosition.y;
         //print(newX + " : " + newY);
@@ -45,7 +66,18 @@ public class Map : MonoBehaviour{
             }
             else
             {
+                //first we remove the actor from his previous position!
+                //print(m_levelMap[(int)GetActorLocation(actor).x, (int)GetActorLocation(actor).y]);
+                //print("at: " + (int)GetActorLocation(actor).x + ":" + (int)GetActorLocation(actor).y);
+                Vector2 actorLocation = GetActorLocation(actor.GetInstanceID());
+                m_levelMap[(int)actorLocation.x, (int)actorLocation.y].m_occupant = null;
                 m_levelMap[newX, newY].m_occupant = actor;
+
+                actorLocation = GetActorLocation(actor.GetInstanceID());
+                print(m_levelMap[(int)actorLocation.x, (int)actorLocation.y].m_occupant);
+                print("at: " + (int)actorLocation.x + ":" + (int)actorLocation.y);
+                print("should be at: " + newX + ":" + newY);
+
                 if (actor.m_isPlayer)
                 {
                     Camera.main.transform.position = new Vector3(newX * m_tileSize, newY * m_tileSize, -10);
@@ -62,24 +94,28 @@ public class Map : MonoBehaviour{
         m_levelMap[newX, newY].m_itemsInTile.Add(item);
     }
 
-    public Vector2 GetActorLocation(Actor actor)
+    public Vector2 GetActorLocation(int actorID)
     {
+        //print("Got actor's location");
         for(int y = 0; y < m_mapSize; y++)
         {
             for (int x = 0; x < m_mapSize; x++)
             {
+                //print(m_levelMap[x, y].m_name);
+                //print(m_levelMap[x, y].m_occupant);
                 if (m_levelMap[x, y].m_occupant != null)
                 {
-                    if (m_levelMap[x, y].m_occupant == actor)
+                    if (m_levelMap[x, y].m_occupant.GetInstanceID() == actorID)
                     {
-                        print(m_levelMap[x, y].m_occupant + "at:");
-                        print(x + "-" + y);
+                        //print(m_levelMap[x, y].m_occupant + "at:");
+                        //print(x + "-" + y);
 
                         return new Vector2(x, y);
                     }
                 }
             }
         }
-        return new Vector2(0, 0);
+        print("Actor not found");
+        return new Vector2(-1, -1);
     }
 }

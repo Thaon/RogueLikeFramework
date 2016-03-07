@@ -56,7 +56,7 @@ public class Actor : MonoBehaviour {
             string items = "";
             foreach(Item item in m_inventory.m_items)
             {
-                Vector2 position = m_levelMap.GetActorLocation(this);
+                Vector2 position = m_levelMap.GetActorLocation(this.GetInstanceID());
                 m_levelMap.DropItem(item, position);
                 m_levelMap.m_levelMap[(int)position.x, (int)position.y].m_occupant = null; //we remove the actor from there for safety reasons
                 items += item.m_name + " ";
